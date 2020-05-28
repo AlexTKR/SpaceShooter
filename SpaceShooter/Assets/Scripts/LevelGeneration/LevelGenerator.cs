@@ -2,6 +2,7 @@
 using System.IO;
 using Scripts.Levels;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Scripts.LevelGeneration
 {
@@ -43,7 +44,12 @@ namespace Scripts.LevelGeneration
                 LevelDataBase levelData = new LevelData();
                 levelData.LevelName = "Level" + levelNumber;
                 levelData.LevelDuration = levelGenerationData.MinLevelDuration + durationIncrease;
-                // put prefabs in there + you can create states at run time 
+
+                for (int j = 0; j < levelGenerationData.MaxSpawnableCount; j++)
+                {
+                    levelData.Spawnables.Add(levelGenerationData.SpawnableData.Spawnables[Random.Range(0, levelGenerationData.SpawnableData.Spawnables.Count)].name);
+                }
+
                 LevelBase level = new Level(levelData);
                 levelHolder.Levels.AddLast(level);
 

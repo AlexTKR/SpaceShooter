@@ -6,6 +6,10 @@ namespace Scripts.General
 {
     public class CompositionRoot : MonoBehaviour
     {
+        #region view
+
+        #endregion
+
         #region Data
         [SerializeField] private LevelGenerationDataBase levelGenerationData;
         #endregion
@@ -20,6 +24,11 @@ namespace Scripts.General
             InitLevelHolder();
             InitLevelGeneration();
             InitLevelController();
+        }
+
+        private void Update()
+        {
+            levelController?.Tick();
         }
 
         private void InitLevelHolder()

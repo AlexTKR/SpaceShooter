@@ -14,7 +14,7 @@
             
         }
 
-        public override void AddLevel(LevelBase level)
+        public override void Tick()
         {
             
         }
