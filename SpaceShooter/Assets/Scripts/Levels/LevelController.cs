@@ -1,18 +1,22 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Scripts.Player;
 
 namespace Scripts.Levels
 {
     public class LevelController : LevelControllerBase
     {
         private LevelHolderBase levelHolder;
-        private LevelSpawnerBase levelSpawner;
+        private PlayerControllerBase playerController;
         private MonoBehaviour mono;
 
-        public LevelController(LevelHolderBase _levelHolder, MonoBehaviour _mono)
+        private LevelSpawnerBase levelSpawner;
+        private LevelBase currentLevel;
+
+        public LevelController(LevelHolderBase _levelHolder, MonoBehaviour _mono, PlayerControllerBase _playerController)
         {
+            playerController = _playerController;
             levelHolder = _levelHolder;
             mono = _mono;
         }
@@ -20,10 +24,12 @@ namespace Scripts.Levels
         public override void Init()
         {
             InitLevels();
+            InitLevelSpawner();
         }
 
         public override void StartLevel(LevelBase level)
         {
+            currentLevel = level;
             mono.StartCoroutine(StartLevel());
         }
 

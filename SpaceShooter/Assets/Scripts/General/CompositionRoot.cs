@@ -16,6 +16,7 @@ namespace Scripts.General
         #endregion
         #region Data
         [SerializeField] private LevelGenerationDataBase levelGenerationData;
+        [SerializeField] private PlayerDataBase playerData;
         #endregion
 
         private LevelGenerationControllerBase levelGenerationController;
@@ -36,6 +37,10 @@ namespace Scripts.General
         private void Update()
         {
             levelController?.Tick();
+        }
+
+        private void FixedUpdate()
+        {
             playerController?.Tick();
         }
 
@@ -51,12 +56,12 @@ namespace Scripts.General
 
         private void InitLevelController()
         {
-            levelController = new LevelController(levelHolder, this);
+            levelController = new LevelController(levelHolder, this, playerController);
         }
 
         private void InitPlayerController()
         {
-            playerController = new PlayerController(playerView);
+            playerController = new PlayerController(playerView, playerData);
         }
 
         private void Init()

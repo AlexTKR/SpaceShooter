@@ -1,18 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class InputReader : MonoBehaviour
+namespace Scripts.Player
 {
-    // Start is called before the first frame update
-    void Start()
+    public class InputReader : IInputReader
     {
-        
-    }
+        private IMovement playerMovement;
+        private Vector3 moveDirection;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public InputReader(IMovement _playerMovement)
+        {
+            playerMovement = _playerMovement;
+        }
+
+        public void Read()
+        {
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
+            moveDirection = new Vector3(moveHorizontal, moveVertical, 0 );
+
+            playerMovement.Move(moveDirection);
+        }
     }
 }
