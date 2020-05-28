@@ -1,20 +1,29 @@
 ﻿using UnityEngine;
 using System.IO;
 using Scripts.Levels;
-using System.Collections.Generic;
-using System.Linq;
+using Scripts.Factories;
+using Scripts.Map;
 
 namespace Scripts.LevelGeneration
 {
     public class LevelGenerator : LevelGeneratorBase
     {
+        private LevelControllerBase levelController;
         private LevelGenerationDataBase levelGenerationData;
         private LevelHolderBase levelHolder;
+        private SimpleFactory<LevelViewBase> levelViewFactory;
+        private MapViewBase mapView;
 
-        public LevelGenerator(LevelGenerationDataBase _levelGenerationData, LevelHolderBase _levelHolder)
+        private string levelOneName = "Level1";
+
+        public LevelGenerator(LevelControllerBase _levelController, LevelGenerationDataBase _levelGenerationData, LevelHolderBase _levelHolder, SimpleFactory<LevelViewBase> _levelViewFactory
+            , MapViewBase _mapView)
         {
+            levelController = _levelController;
             levelGenerationData = _levelGenerationData;
             levelHolder = _levelHolder;
+            levelViewFactory = _levelViewFactory;
+            mapView = _mapView;
         }
 
         public override void Generate()
@@ -41,16 +50,26 @@ namespace Scripts.LevelGeneration
 
             for (int i = 0; i < Random.Range(levelGenerationData.MinLevelCount, levelGenerationData.MaxLevelCount); i++)
             {
-                LevelDataBase levelData = new LevelData();
-                levelData.LevelName = "Level" + levelNumber;
-                levelData.LevelDuration = levelGenerationData.MinLevelDuration + durationIncrease;
+                LevelData levelData = new LevelData(); //TODO make level data abstract. Can we binary serialize abstracts even thought we have to cast it anyway? 
+                levelData.Init();
+                levelData.levelName = "Level" + levelNumber;
+                levelData.levelDuration = levelGenerationData.MinLevelDuration + durationIncrease;
+                levelData.levelStatus = LevelStatus.Closed;
 
-                for (int j = 0; j < levelGenerationData.MaxSpawnableCount; j++)
+                if (levelData.levelName.Equals(levelOneName))
                 {
-                    levelData.Spawnables.Add(levelGenerationData.SpawnableData.Spawnables[Random.Range(0, levelGenerationData.SpawnableData.Spawnables.Count)].name);
+                    levelData.levelStatus = LevelStatus.Open;
                 }
 
-                LevelBase level = new Level(levelData);
+                for (int j = 0; j < Random.Range(levelGenerationData.MinSpawnableCount, levelGenerationData.MaxSpawnableCount); j++)
+                {
+                    levelData.spawnables.Add(levelGenerationData.SpawnableData.Spawnables[Random.Range(0, levelGenerationData.SpawnableData.Spawnables.Count)].name);
+                }
+
+                LevelViewBase levelView = levelViewFactory.GetItem();
+                levelView.gameObject.transform.SetParent(mapView.LevelViewHolder);
+
+                LevelBase level = new Level(levelController ,levelData, levelView);
                 levelHolder.Levels.AddLast(level);
 
                 levelNumber++;

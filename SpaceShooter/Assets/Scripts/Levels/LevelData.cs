@@ -4,25 +4,17 @@ using System.Collections.Generic;
 namespace Scripts.Levels
 {
     [Serializable]
-    public class LevelData : LevelDataBase
+    public class LevelData 
     {
-        private string levelName;
-        private float levelDuration;
-        private List<string> spawnables;
+        public string levelName;
+        public float levelDuration;
+        public LevelStatus levelStatus;
+        public List<string> spawnables;
 
-        public override string LevelName { get => levelName; set => levelName = value; }
-        public override float LevelDuration { get => levelDuration; set => levelDuration = value; }
-        public override List<string> Spawnables
+
+        public void Init()
         {
-            get
-            {
-                if (spawnables == null)
-                {
-                    spawnables = new List<string>();
-                }
-                return spawnables;
-            }
-            set => spawnables = value;
+            spawnables = new List<string>();
         }
     }
 }

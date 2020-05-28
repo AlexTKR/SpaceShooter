@@ -4,5 +4,7 @@
     {
         public abstract void Init();
         public abstract void Tick();
+
+        public abstract void StartLevel(LevelBase level);
     }
 }
