@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Scripts.LevelGeneration;
+using Scripts.Levels;
 
 namespace Scripts.General
 {
@@ -10,16 +11,32 @@ namespace Scripts.General
         #endregion
 
         private LevelGenerationControllerBase levelGenerationController;
+        private LevelControllerBase levelController;
+
+        private LevelHolderBase levelHolder;
 
         private void Awake()
         {
+            InitLevelHolder();
             InitLevelGeneration();
+            InitLevelController();
+        }
+
+        private void InitLevelHolder()
+        {
+            levelHolder = new LevelHolder();
         }
 
         private void InitLevelGeneration()
         {
-            levelGenerationController = new LevelGenerationController(levelGenerationData);
+            levelGenerationController = new LevelGenerationController(levelGenerationData, levelHolder);
             levelGenerationController.Init();
+        }
+
+        private void InitLevelController()
+        {
+            levelController = new LevelController(levelHolder);
+            levelController.Init();
         }
     }
 }
