@@ -13,7 +13,7 @@ namespace Scripts.Player
 
         public override float PlayerSpeed => playerSpeed;
         public override Vector3 StartPos => startPos;
-        public override int PlayerLives { get => playerLifesTemp; set => playerLifesTemp = value; }
+        public override int PlayerLives { get => playerLifesTemp; set => playerLifesTemp = Mathf.Clamp(value, 0, playerLifes + 1); }
 
         private void OnEnable()
         {

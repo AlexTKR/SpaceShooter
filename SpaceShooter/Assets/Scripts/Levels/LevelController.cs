@@ -86,7 +86,7 @@ namespace Scripts.Levels
                 levelDuration--;
                 levelView.TimeText.text = levelDuration.ToString();
 
-                if (PlayerData.PlayerLives <= 0)
+                if (PlayerData.PlayerLives == 0)
                 {
                     StopSpawning();
                     levelView.LoseText.gameObject.SetActive(true);
@@ -128,7 +128,7 @@ namespace Scripts.Levels
             currentLevel.SetStatus();
             LinkedListNode<LevelBase> nextLevel = levelHolder.Levels.Find(currentLevel).Next;
 
-            if (nextLevel != null)
+            if (nextLevel != null && nextLevel.Value.LevelData.levelStatus != LevelStatus.Completed)
             {
                 nextLevel.Value.LevelData.levelStatus = LevelStatus.Open;
                 nextLevel.Value.SetStatus();
