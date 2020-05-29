@@ -4,22 +4,22 @@
     {
         private LevelControllerBase levelController;
         private LevelData levelData;
-        private LevelViewBase levelView;
+        private LevelIconBase levelIcon;
 
         public override LevelData LevelData => levelData;
  
-        public Level(LevelControllerBase _levelController, LevelData _levelData, LevelViewBase _levelView)
+        public Level(LevelControllerBase _levelController, LevelData _levelData, LevelIconBase _levelIcon)
         {
             levelController = _levelController;
             levelData = _levelData;
-            levelView = _levelView;
+            levelIcon = _levelIcon;
         }
 
         public override void Init()
         {
             InitLevelView();
             SetLevelStatus();
-            Subscribe();
+            Subscribe(); 
         }
 
 
@@ -30,12 +30,12 @@
 
         private void InitLevelView()
         {
-            levelView.LevelNameText.text = levelData.levelName;
+            levelIcon.LevelNameText.text = levelData.levelName;
         }
 
         private void Subscribe()
         {
-            levelView.LevelButton.onClick.AddListener(StartLevel);
+            levelIcon.LevelButton.onClick.AddListener(StartLevel);
         }
 
         private void SetLevelStatus()
@@ -43,25 +43,25 @@
             switch (levelData.levelStatus)
             {
                 case LevelStatus.Closed:
-                    levelView.LevelStatusText.text = "Closed";
-                    levelView.LevelButton.interactable = false;
+                    levelIcon.LevelStatusText.text = "Closed";
+                    levelIcon.LevelButton.interactable = false;
                     break;
 
                 case LevelStatus.Open:
-                    levelView.LevelStatusText.text = "Open";
-                    levelView.LevelButton.interactable = true;
+                    levelIcon.LevelStatusText.text = "Open";
+                    levelIcon.LevelButton.interactable = true;
                     break;
 
                 case LevelStatus.Completed:
-                    levelView.LevelStatusText.text = "Complited";
-                    levelView.LevelButton.interactable = true;
+                    levelIcon.LevelStatusText.text = "Complited";
+                    levelIcon.LevelButton.interactable = true;
                     break;
             }
         }
 
         private void StartLevel()
         {
-
+            levelController.StartLevel(this);
         }
     }
 }

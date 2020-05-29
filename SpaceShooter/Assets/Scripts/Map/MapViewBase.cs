@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace Scripts.Map
 {
     public abstract class MapViewBase : MonoBehaviour
     {
-        public abstract Transform LevelViewHolder { get; }
+        public abstract RectTransform LevelViewHolder { get; }
     }
 }

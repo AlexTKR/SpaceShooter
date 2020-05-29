@@ -4,8 +4,8 @@ namespace Scripts.Map
 {
     public class MapView : MapViewBase
     {
-        [SerializeField] private Transform levelViewHolder;
+        [SerializeField] private RectTransform levelViewHolder;
 
-        public override Transform LevelViewHolder => levelViewHolder;
+        public override RectTransform LevelViewHolder => levelViewHolder;
     }
 }

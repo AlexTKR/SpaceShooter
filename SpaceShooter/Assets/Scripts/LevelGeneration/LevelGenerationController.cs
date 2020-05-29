@@ -10,16 +10,16 @@ namespace Scripts.LevelGeneration
         private LevelControllerBase levelController;
         private LevelGenerationDataBase levelGenerationData;
         private LevelHolderBase levelHolder;
-        private SimpleFactory<LevelViewBase> levelViewFactory;
+        private SimpleFactory<LevelIconBase> levelIconFactory;
         private MapViewBase mapView;
 
         public LevelGenerationController(LevelControllerBase _levelController,LevelGenerationDataBase _levelGenerationData, LevelHolderBase _levelHolder ,
-            SimpleFactory<LevelViewBase> _levelViewFactory, MapViewBase _mapView)
+            SimpleFactory<LevelIconBase> _levelIconFactory, MapViewBase _mapView)
         {
             levelController = _levelController;
             levelGenerationData = _levelGenerationData;
             levelHolder = _levelHolder;
-            levelViewFactory = _levelViewFactory;
+            levelIconFactory = _levelIconFactory;
             mapView = _mapView;
         }
 
@@ -30,7 +30,7 @@ namespace Scripts.LevelGeneration
 
     private void InitLevelGenerator()
     {
-        levelGenerator = new LevelGenerator(levelController , levelGenerationData, levelHolder, levelViewFactory, mapView);
+        levelGenerator = new LevelGenerator(levelController , levelGenerationData, levelHolder, levelIconFactory, mapView);
         levelGenerator.Generate();
     }
 }

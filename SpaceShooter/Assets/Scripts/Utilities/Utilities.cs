@@ -4,6 +4,6 @@ namespace Scripts.Utilities
 {
     public static class Utilities 
     {
-        public static readonly string savePath = Application.persistentDataPath + "/" + "Save";
+        public static readonly string savePath = Application.persistentDataPath + "/" + "Save" +"/";
     }
 }

@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e3b3531f970454478ef9c1b358289c9, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
+  playerLifes: 3
+  startPos: {x: 0, y: -2.8, z: 0}
   playerSpeed: 200

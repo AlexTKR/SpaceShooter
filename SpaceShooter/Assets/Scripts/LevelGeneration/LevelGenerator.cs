@@ -3,6 +3,7 @@ using System.IO;
 using Scripts.Levels;
 using Scripts.Factories;
 using Scripts.Map;
+using Scripts.Saving;
 
 namespace Scripts.LevelGeneration
 {
@@ -11,18 +12,18 @@ namespace Scripts.LevelGeneration
         private LevelControllerBase levelController;
         private LevelGenerationDataBase levelGenerationData;
         private LevelHolderBase levelHolder;
-        private SimpleFactory<LevelViewBase> levelViewFactory;
+        private SimpleFactory<LevelIconBase> levelIconFactory;
         private MapViewBase mapView;
 
-        private string levelOneName = "Level1";
+        private string levelOneName = "Level1"; //TODO move to level data
 
-        public LevelGenerator(LevelControllerBase _levelController, LevelGenerationDataBase _levelGenerationData, LevelHolderBase _levelHolder, SimpleFactory<LevelViewBase> _levelViewFactory
+        public LevelGenerator(LevelControllerBase _levelController, LevelGenerationDataBase _levelGenerationData, LevelHolderBase _levelHolder, SimpleFactory<LevelIconBase> _levelIconFactory
             , MapViewBase _mapView)
         {
             levelController = _levelController;
             levelGenerationData = _levelGenerationData;
             levelHolder = _levelHolder;
-            levelViewFactory = _levelViewFactory;
+            levelIconFactory = _levelIconFactory;
             mapView = _mapView;
         }
 
@@ -33,9 +34,9 @@ namespace Scripts.LevelGeneration
 
         private void GenerateLevels()
         {
-            if (Directory.Exists(Utilities.Utilities.savePath))
+            if (File.Exists(Utilities.Utilities.savePath + "Save.save"))
             {
-                //Load game
+                LoadLevels();
             }
             else
             {
@@ -50,7 +51,7 @@ namespace Scripts.LevelGeneration
 
             for (int i = 0; i < Random.Range(levelGenerationData.MinLevelCount, levelGenerationData.MaxLevelCount); i++)
             {
-                LevelData levelData = new LevelData(); //TODO make level data abstract. Can we binary serialize abstracts even thought we have to cast it anyway? 
+                LevelData levelData = new LevelData(); 
                 levelData.Init();
                 levelData.levelName = "Level" + levelNumber;
                 levelData.levelDuration = levelGenerationData.MinLevelDuration + durationIncrease;
@@ -66,14 +67,32 @@ namespace Scripts.LevelGeneration
                     levelData.spawnables.Add(levelGenerationData.SpawnableData.Spawnables[Random.Range(0, levelGenerationData.SpawnableData.Spawnables.Count)].name);
                 }
 
-                LevelViewBase levelView = levelViewFactory.GetItem();
-                levelView.gameObject.transform.SetParent(mapView.LevelViewHolder);
+                SaveData.Current.levelData.Add(levelData);
 
-                LevelBase level = new Level(levelController ,levelData, levelView);
+                LevelIconBase levelIcon = levelIconFactory.GetItem();
+                levelIcon.gameObject.SetActive(true);
+                levelIcon.gameObject.transform.SetParent(mapView.LevelViewHolder);
+
+                LevelBase level = new Level(levelController ,levelData, levelIcon);
                 levelHolder.Levels.AddLast(level);
 
                 levelNumber++;
                 durationIncrease += levelGenerationData.DurationIncreasePerLevel;
+            }
+        }
+
+        private void LoadLevels()
+        {
+            SaveData.Current = (SaveData)SerializationManager.Load(Utilities.Utilities.savePath + "Save.save");
+
+            for (int i = 0; i < SaveData.Current.levelData.Count; i++)
+            {
+                LevelIconBase levelIcon = levelIconFactory.GetItem();
+                levelIcon.gameObject.SetActive(true);
+                levelIcon.gameObject.transform.SetParent(mapView.LevelViewHolder);
+
+                LevelBase level = new Level(levelController, SaveData.Current.levelData[i], levelIcon);
+                levelHolder.Levels.AddLast(level);
             }
         }
     }
