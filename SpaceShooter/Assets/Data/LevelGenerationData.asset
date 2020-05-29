@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9766fc3656acd04dbed0668531d7da9, type: 3}
+  m_Name: LevelGenerationData
+  m_EditorClassIdentifier: 
+  minLevelCount: 3
+  maxLevelCount: 7
+  minSpawnableCount: 3
+  maxSpawnableCount: 6
+  minLevelDuration: 60
+  durationIncreasePerLevel: 10
+  spawnableData: {fileID: 11400000, guid: 191cc0936f188684f89484279e090e05, type: 2}
