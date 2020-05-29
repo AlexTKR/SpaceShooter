@@ -8,6 +8,7 @@ namespace Scripts.Levels
     {
         public string levelName;
         public float levelDuration;
+        public float spawnRate;
         public LevelStatus levelStatus;
         public List<string> spawnables;
 

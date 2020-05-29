@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minLevelCount: 3
   maxLevelCount: 7
+  minSpawnRate: 1
+  maxSpawnRate: 2
   minSpawnableCount: 3
   maxSpawnableCount: 6
-  minLevelDuration: 60
+  minLevelDuration: 30
   durationIncreasePerLevel: 10
+  levelOneName: Level1
   spawnableData: {fileID: 11400000, guid: 191cc0936f188684f89484279e090e05, type: 2}

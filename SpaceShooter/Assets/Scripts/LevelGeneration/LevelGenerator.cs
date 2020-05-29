@@ -15,8 +15,6 @@ namespace Scripts.LevelGeneration
         private SimpleFactory<LevelIconBase> levelIconFactory;
         private MapViewBase mapView;
 
-        private string levelOneName = "Level1"; //TODO move to level data
-
         public LevelGenerator(LevelControllerBase _levelController, LevelGenerationDataBase _levelGenerationData, LevelHolderBase _levelHolder, SimpleFactory<LevelIconBase> _levelIconFactory
             , MapViewBase _mapView)
         {
@@ -55,9 +53,10 @@ namespace Scripts.LevelGeneration
                 levelData.Init();
                 levelData.levelName = "Level" + levelNumber;
                 levelData.levelDuration = levelGenerationData.MinLevelDuration + durationIncrease;
+                levelData.spawnRate = Random.Range(levelGenerationData.MinSpawnRate, levelGenerationData.MaxSpawnRate);
                 levelData.levelStatus = LevelStatus.Closed;
 
-                if (levelData.levelName.Equals(levelOneName))
+                if (levelData.levelName.Equals(levelGenerationData.LevelOneName))
                 {
                     levelData.levelStatus = LevelStatus.Open;
                 }

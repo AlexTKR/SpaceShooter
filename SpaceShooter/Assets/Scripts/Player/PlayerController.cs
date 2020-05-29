@@ -1,5 +1,6 @@
 ﻿using Scripts.Factories;
 using Scripts.Spawnable;
+using Scripts.Levels;
 
 namespace Scripts.Player
 {
@@ -8,6 +9,7 @@ namespace Scripts.Player
         private PlayerViewBase playerView;
         private PlayerDataBase playerData;
         private SimpleFactory<SpawnableBase> lazerFactory;
+        private LevelViewBase levelView;
 
         private IInputReader inputReader;
         private IMovement playerMovement;
@@ -15,11 +17,12 @@ namespace Scripts.Player
 
         private bool canRead = false;
 
-        public PlayerController(PlayerViewBase _playerView, PlayerDataBase _playerData, SimpleFactory<SpawnableBase> _lazerFactory)
+        public PlayerController(PlayerViewBase _playerView, PlayerDataBase _playerData, SimpleFactory<SpawnableBase> _lazerFactory, LevelViewBase _levelView)
         {
             playerView = _playerView;
             playerData = _playerData;
             lazerFactory = _lazerFactory;
+            levelView = _levelView;
         }
 
         public override void Init()
@@ -41,13 +44,14 @@ namespace Scripts.Player
         public override void Disable()
         {
             canRead = false;
-            playerData.PlayerLifes = 3;
+            playerData.PlayerLives = 3;
         }
 
         public override void Enable()
         {
             canRead = true;
             playerView.transform.position = playerData.StartPos;
+            levelView.LivesText.text = playerData.PlayerLives.ToString();
         }
 
         private void InitInputReader()
@@ -73,7 +77,8 @@ namespace Scripts.Player
 
         private void OnPlayerCollided()
         {
-            playerData.PlayerLifes--;
+            playerData.PlayerLives--;
+            levelView.LivesText.text = playerData.PlayerLives.ToString();
         }
     }
 }
