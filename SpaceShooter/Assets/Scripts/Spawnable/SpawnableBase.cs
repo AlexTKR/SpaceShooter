@@ -6,5 +6,6 @@ namespace Scripts.Spawnable
     public abstract class SpawnableBase : MonoBehaviour
     {
         public abstract void SetPool(GenericPool<SpawnableBase> _pool);
+        public abstract void Disable();
     }
 }

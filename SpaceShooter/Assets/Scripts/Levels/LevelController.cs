@@ -50,7 +50,6 @@ namespace Scripts.Levels
         {
             playerController.Disable();
             mono.StopAllCoroutines();
-            levelSpawner.StopSpawning();
             mapController.Enable();
         }
 
@@ -87,8 +86,9 @@ namespace Scripts.Levels
                 levelDuration--;
                 levelView.TimeText.text = levelDuration.ToString();
 
-                if (PlayerData.PlayerLives == 0)
+                if (PlayerData.PlayerLives <= 0)
                 {
+                    StopSpawning();
                     levelView.LoseText.gameObject.SetActive(true);
                     yield return new WaitForSecondsRealtime(2f);
                     levelView.LoseText.gameObject.SetActive(false);
@@ -96,6 +96,7 @@ namespace Scripts.Levels
                 }
             }
 
+            StopSpawning();
             DisablePlayer();
             CompleteLevel();
 
@@ -104,7 +105,6 @@ namespace Scripts.Levels
             levelView.WinText.gameObject.SetActive(false);
 
             ShowMap();
-            StopSpawning();
         }
 
         private void StopSpawning()
