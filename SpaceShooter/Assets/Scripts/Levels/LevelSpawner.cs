@@ -80,7 +80,7 @@ namespace Scripts.Levels
                 currAsteroid.transform.position = levelView.SpawnPos[Random.Range(0, levelView.SpawnPos.Count)].position;
                 currAsteroid.gameObject.SetActive(true);
 
-                yield return new WaitForSecondsRealtime(3f);
+                yield return new WaitForSecondsRealtime(currentLevel.LevelData.spawnRate);
             }
 
         }

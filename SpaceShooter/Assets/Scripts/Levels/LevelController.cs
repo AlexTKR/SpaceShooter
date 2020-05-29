@@ -87,7 +87,7 @@ namespace Scripts.Levels
                 levelDuration--;
                 levelView.TimeText.text = levelDuration.ToString();
 
-                if (PlayerData.PlayerLifes == 0)
+                if (PlayerData.PlayerLives == 0)
                 {
                     levelView.LoseText.gameObject.SetActive(true);
                     yield return new WaitForSecondsRealtime(2f);
@@ -96,25 +96,43 @@ namespace Scripts.Levels
                 }
             }
 
+            DisablePlayer();
+            CompleteLevel();
+
+            levelView.WinText.gameObject.SetActive(true);
+            yield return new WaitForSecondsRealtime(2f);
+            levelView.WinText.gameObject.SetActive(false);
+
+            ShowMap();
+            StopSpawning();
+        }
+
+        private void StopSpawning()
+        {
+            levelSpawner.StopSpawning();
+        }
+
+        private void ShowMap()
+        {
+            mapController.Enable();
+        }
+
+        private void DisablePlayer()
+        {
             playerController.Disable();
+        }
+
+        private void CompleteLevel()
+        {
             currentLevel.LevelData.levelStatus = LevelStatus.Completed;
             currentLevel.SetStatus();
-
-            LinkedListNode<LevelBase> nextLevel;
-            nextLevel = levelHolder.Levels.Find(currentLevel).Next;
+            LinkedListNode<LevelBase> nextLevel = levelHolder.Levels.Find(currentLevel).Next;
 
             if (nextLevel != null)
             {
                 nextLevel.Value.LevelData.levelStatus = LevelStatus.Open;
                 nextLevel.Value.SetStatus();
             }
-
-            levelView.WinText.gameObject.SetActive(true);
-            yield return new WaitForSecondsRealtime(2f);
-            levelView.WinText.gameObject.SetActive(false);
-
-            mapController.Enable();
-            levelSpawner.StopSpawning();
         }
     }
 }

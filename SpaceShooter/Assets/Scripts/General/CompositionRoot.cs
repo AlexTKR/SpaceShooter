@@ -73,7 +73,7 @@ namespace Scripts.General
 
         private void InitPlayerController()
         {
-            playerController = new PlayerController(playerView, playerData, lazerFactory);
+            playerController = new PlayerController(playerView, playerData, lazerFactory, levelView);
         }
 
         private void Init()
