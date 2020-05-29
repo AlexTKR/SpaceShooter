@@ -37,5 +37,10 @@ namespace Scripts.Spawnable
         {
             pool = _pool;
         }
+
+        public override void Disable()
+        {
+            
+        }
     }
 }

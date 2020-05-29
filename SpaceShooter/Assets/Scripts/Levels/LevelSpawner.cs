@@ -17,6 +17,9 @@ namespace Scripts.Levels
         private LevelBase currentLevel;
         private GenericPool<SpawnableBase> currentPool;
         private Dictionary<string, GenericPool<SpawnableBase>> poolHolder;
+        private SpawnableManagerBase spawnableManager;
+
+        private bool CanSpawn = false;
 
         public LevelSpawner(LevelViewBase _levelView, LevelHolderBase _levelHolder, AsteroidsFactoryBase _asteroidsFactory, MonoBehaviour _mono)
         {
@@ -29,6 +32,7 @@ namespace Scripts.Levels
         public override void Init()
         {
             InitPools();
+            InitSpawnableManager();
         }
 
         public override void SetCurrentLevel(LevelBase level)
@@ -38,13 +42,15 @@ namespace Scripts.Levels
 
         public override void StartSpawning()
         {
+            CanSpawn = true;
             currentPool = poolHolder[currentLevel.LevelData.levelName];
             mono.StartCoroutine(Spawn());
         }
 
         public override void StopSpawning()
         {
-            mono.StopAllCoroutines();
+            CanSpawn = false;
+            spawnableManager.Disable();
         }
 
         private void InitPools()
@@ -75,10 +81,13 @@ namespace Scripts.Levels
                     PopulatePool();
                 }
 
-                SpawnableBase currAsteroid = currentPool.GetInctance();
-                currAsteroid.SetPool(currentPool);
-                currAsteroid.transform.position = levelView.SpawnPos[Random.Range(0, levelView.SpawnPos.Count)].position;
-                currAsteroid.gameObject.SetActive(true);
+                if (CanSpawn)
+                {
+                    SpawnableBase currAsteroid = currentPool.GetInctance();
+                    currAsteroid.SetPool(currentPool);
+                    currAsteroid.transform.position = levelView.SpawnPos[Random.Range(0, levelView.SpawnPos.Count)].position;
+                    currAsteroid.gameObject.SetActive(true);
+                }
 
                 yield return new WaitForSecondsRealtime(currentLevel.LevelData.spawnRate);
             }
@@ -92,8 +101,15 @@ namespace Scripts.Levels
                 SpawnableBase currAsteroid = asteroidsFactory.GetItem(currentLevel.LevelData.spawnables[i]);
                 currAsteroid.gameObject.transform.SetParent(levelView.SpawnableHolder);
                 currAsteroid.gameObject.SetActive(false);
+                spawnableManager.SetSpawnable(currAsteroid);
                 currentPool.SetInstance(currAsteroid);
             }
+        }
+
+        private void InitSpawnableManager()
+        {
+            spawnableManager = new SpawnableManager();
+            spawnableManager.Init();
         }
     }
 }

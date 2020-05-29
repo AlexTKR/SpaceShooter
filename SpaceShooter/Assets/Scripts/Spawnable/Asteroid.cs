@@ -27,14 +27,19 @@ namespace Scripts.Spawnable
         {
             if (collision.tag == shredderTag)
             {
-                gameObject.SetActive(false);
-                pool.SetInstance(this);
+                Disable();
             }
         }
 
         public override void SetPool(GenericPool<SpawnableBase> _pool)
         {
             pool = _pool;
+        }
+
+        public override void Disable()
+        {
+            gameObject.SetActive(false);
+            pool.SetInstance(this);
         }
     }
 }
