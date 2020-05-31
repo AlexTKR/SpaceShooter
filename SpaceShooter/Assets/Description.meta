@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 770b48776a9130a438ca0566bf422cb5
+=======
+guid: b9f055e489915c745a5f804a56cd2c22
+>>>>>>> LevelGenerator
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
