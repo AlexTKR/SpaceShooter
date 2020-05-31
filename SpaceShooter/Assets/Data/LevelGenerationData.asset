@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minLevelCount: 3
   maxLevelCount: 7
-  minSpawnRate: 1
-  maxSpawnRate: 2
+  minSpawnRate: 0.8
+  maxSpawnRate: 1
   minSpawnableCount: 3
   maxSpawnableCount: 6
   minLevelDuration: 30

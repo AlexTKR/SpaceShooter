@@ -6,11 +6,6 @@ namespace Scripts.Spawnable
     {
         private List<SpawnableBase> activeSpawnableHolder;
 
-        public SpawnableManager()
-        {
-
-        }
-
         public override void Disable()
         {
             DisableAvtiveSpawnables();
@@ -40,8 +35,6 @@ namespace Scripts.Spawnable
                     activeSpawnableHolder[i].Disable();
                 }
             }
-
-            activeSpawnableHolder.Clear();
         }
     }
 }

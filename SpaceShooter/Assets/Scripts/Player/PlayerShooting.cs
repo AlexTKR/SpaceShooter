@@ -48,6 +48,7 @@ namespace Scripts.Player
         {
             SpawnableBase newLazer = lazerFactory.GetItem();
             newLazer.SetPool(lazerPool);
+            newLazer.transform.SetParent(playerView.ShootPos);
             newLazer.gameObject.SetActive(false);
             lazerPool.SetInstance(newLazer);
         }
